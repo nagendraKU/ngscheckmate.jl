@@ -8,9 +8,9 @@ _Takes a list of vcf files as input and outputs a correlation matrix of samples.
 First, generate VCF from BAM files as follows. I use nf-core/rnaseq pipeline for RNA-seq processing, and the BAM files are available in the `star_salmon` output folder.
 
 **Notes:**
-- You will need bcftools/1.22 and GNU Parallel (optional) to generate the VCF calls.
+- You will need `bcftools/1.22` and `GNU Parallel` (optional) to generate the VCF calls.
 - Use the genome fasta used for the RNA-seq reference building.
-- Do NOT forget to use the BED file as input for bcftools mpileup, as otherwise it will do variant calling for all SNPs observed rather than the ones that are required for ncm.jl (~20,000 SNPs). The time difference is a few seconds per file when using the BED versus several minutes without.
+- Do NOT forget to use the BED file as input for `bcftools mpileup`, as otherwise it will do variant calling for all SNPs observed rather than the ones that are required for `ncm.jl` (~20,000 SNPs). The time difference is a few seconds per file when using the BED versus several minutes without.
 - Set the `-j 20` flag in the `GNU Parallel` to the number of processors available to you.
 
 ### Generate the VCF
