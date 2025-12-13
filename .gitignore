@@ -1,0 +1,23 @@
+# Julia
+*.jl.cov
+*.jl.*.cov
+*.jl.mem
+/Manifest.toml
+/deps/deps.jl
+
+# Docker data directory
+/data/
+
+# Output files
+*.pdf
+*_output_corr_matrix.txt
+*_all.txt
+*_matched.txt
+
+# Temporary files
+*.tmp
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
