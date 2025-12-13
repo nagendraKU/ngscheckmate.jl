@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  ngscheckmate:
+    build: .
+    image: ngscheckmate-jl:latest
+    container_name: ngscheckmate-julia
+    
+    # Environment variables
+    environment:
+      - JULIA_NUM_THREADS=auto
+    
+    # Volume mounting - mount your local data directory to /data in the container
+    volumes:
+      - ./data:/data
+      # Uncomment the line below to mount a different directory
+      # - /path/to/your/local/directory:/data
+    
+    # Keep container running for interactive use
+    stdin_open: true
+    tty: true
+    
+    # Default command (can be overridden)
+    command: ["julia", "--project=/app/ngscheckmate.jl", "/app/ngscheckmate.jl/ncm.jl", "--help"]
+
+# Usage examples:
+# 1. Build the image: docker-compose build
+# 2. Run with help: docker-compose run --rm ngscheckmate
+# 3. Run with custom command:
+#    docker-compose run --rm ngscheckmate julia --project=/app/ngscheckmate.jl /app/ngscheckmate.jl/ncm.jl --vcf-list /data/vcf_list.txt --bed /app/ngscheckmate.jl/NCM_SNP_GRCh38_hg38.bed --outdir /data/output --out-prefix myproject
+# 4. Interactive shell: docker-compose run --rm ngscheckmate bash
