@@ -29,3 +29,6 @@ TO DO
 
 - Create Dockerfile for Julia execution.
 - Add R heatmap convenience script.
+
+### Note:
+Other input options provided in the original NGSCheckMate python implementation such as _reading a directory of VCF, taking BAM as input and generating the VCF, or processing FASTQ files_ are NOT provided with `ncm.jl` neither will these features be added.
