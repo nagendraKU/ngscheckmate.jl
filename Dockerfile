@@ -4,26 +4,31 @@ FROM julia:latest
 # Set the working directory inside the container
 WORKDIR /app
 
-# Install system dependencies if needed (for graphics/plotting)
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
     git \
+    ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
-# Clone the repository
-RUN git clone https://github.com/nagendraKU/ngscheckmate.jl.git /app/ngscheckmate.jl
+# Create the application directory
+RUN mkdir -p /app/ngscheckmate.jl
 
-# Set the working directory to the cloned repo
+# Set the working directory to the app
 WORKDIR /app/ngscheckmate.jl
 
-# Copy the Project.toml to ensure dependencies are installed
-# (This is redundant if already in the repo but ensures it's available)
-COPY Project.toml /app/ngscheckmate.jl/Project.toml
+# Copy the project files from the build context
+COPY Project.toml /app/ngscheckmate.jl/
+COPY ncm.jl /app/ngscheckmate.jl/
+COPY NCM_SNP_GRCh38_hg38.bed /app/ngscheckmate.jl/
+COPY README.md /app/ngscheckmate.jl/
+COPY entrypoint.sh /entrypoint.sh
 
-# Instantiate the Julia environment to install all required packages
-RUN julia --project=. -e 'using Pkg; Pkg.instantiate(); Pkg.precompile()'
+# Try to install packages during build (may fail in restricted environments)
+# If this fails, packages will be installed on first run via entrypoint
+RUN julia --project=. -e 'using Pkg; Pkg.instantiate()' || echo "Package installation deferred to runtime"
 
-# Make ncm.jl executable
-RUN chmod +x ncm.jl
+# Make scripts executable
+RUN chmod +x ncm.jl /entrypoint.sh
 
 # Set environment variable for Julia threads (can be overridden at runtime)
 ENV JULIA_NUM_THREADS=auto
@@ -33,6 +38,9 @@ RUN mkdir -p /data
 
 # Set the working directory to /data for user files
 WORKDIR /data
+
+# Set entrypoint to handle package installation on first run
+ENTRYPOINT ["/entrypoint.sh"]
 
 # Default command - show help
 CMD ["julia", "--project=/app/ngscheckmate.jl", "/app/ngscheckmate.jl/ncm.jl", "--help"]

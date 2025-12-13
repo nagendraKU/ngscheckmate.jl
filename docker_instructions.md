@@ -24,6 +24,8 @@ Alternatively, you can build using Docker directly:
 docker build -t ngscheckmate-jl:latest .
 ```
 
+**Note:** The Dockerfile will attempt to install Julia packages during the build process. If the build environment has restricted network access, the packages will be installed automatically on the first run of the container. This first run may take a few minutes while packages are being installed.
+
 ### 2. Prepare Your Data
 
 Create a local directory to hold your input files and receive output:
