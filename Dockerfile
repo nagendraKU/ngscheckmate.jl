@@ -24,8 +24,8 @@ COPY README.md /app/ngscheckmate.jl/
 COPY entrypoint.sh /entrypoint.sh
 
 # Try to install packages during build (may fail in restricted environments)
-# If this fails, packages will be installed on first run via entrypoint
-RUN julia --project=. -e 'using Pkg; Pkg.instantiate()' || echo "Package installation deferred to runtime"
+# Packages will be installed on first container run if this step fails
+RUN julia --project=. -e 'using Pkg; Pkg.instantiate()' || echo "Package installation will occur on first container run"
 
 # Make scripts executable
 RUN chmod +x ncm.jl /entrypoint.sh

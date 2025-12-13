@@ -24,7 +24,7 @@ Alternatively, you can build using Docker directly:
 docker build -t ngscheckmate-jl:latest .
 ```
 
-**Note:** The Dockerfile will attempt to install Julia packages during the build process. If the build environment has restricted network access, the packages will be installed automatically on the first run of the container. This first run may take a few minutes while packages are being installed.
+**Note:** The Dockerfile will attempt to install Julia packages during the build process. In restricted network environments, package installation will be deferred to the container's first run. If packages are installed during build, the first run will be faster. Otherwise, the first run will take a few additional minutes to install and compile packages.
 
 ### 2. Prepare Your Data
 
@@ -179,7 +179,8 @@ mkdir -p ./data/output
 cp /path/to/your/vcf/*.vcf ./data/
 
 # 3. Create VCF list file
-ls -1 /data/*.vcf > ./data/vcf_list.txt
+# Generate vcf_list.txt with container paths
+ls -1 ./data/*.vcf | sed 's|^\./data|/data|' > ./data/vcf_list.txt
 
 # 4. Build the Docker image
 docker-compose build
