@@ -30,5 +30,5 @@ export JULIA_NUM_THREADS=auto && julia ncm.jl --vcf-list project1_vcf_list.txt -
 This is the **recommended** way to run the script. Read [docker_instructions.md](https://github.com/nagendraKU/ngscheckmate.jl/blob/main/docker_instructions.md) for running the script within a docker / podman container.
 
 ### Important Notes:
-- Other input options provided in the original NGSCheckMate python implementation such as _reading a directory of VCF, taking BAM as input and generating the VCF, or processing FASTQ files_ are NOT provided with `ncm.jl` neither will these features be added.
-- An R convenience script is provided to ingest the correlation matrix and produce a heatmap plot.
+- Other input options provided in the original NGSCheckMate python implementation such as _reading a directory of VCF, taking BAM as input and generating the VCF, or processing FASTQ files_ are NOT provided with `ncm.jl` neither will these features be added in the future. 
+- An R convenience script is provided to ingest the correlation matrix and produce a heatmap plot. The script does a check for if the correlation matrix is diagonally symmetric (no labeling errors if `corr_mat == transpose(corr_mat)`)
