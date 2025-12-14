@@ -79,22 +79,34 @@ func_CreateCorrelationHeatmap <- function(
     sortedLabs <- sort(common, decreasing = FALSE)
     matSorted <- mat[sortedLabs, sortedLabs, drop = FALSE]
 
+    # Check for diagonal symmetry (matrix equals its transpose) using numeric tolerance
+    isDiagSymmetric <- isTRUE(all.equal(matSorted, t(matSorted)))
+    TitleText <- if (isDiagSymmetric) {
+        "Matrix is diagonally symmetric."
+    } else {
+        "Matrix is not symmetric. Potential sample mislableing"
+    }
+
     # Color palette for correlations: blue-white-red
     Colors <- colorRampPalette(c("#eff15e", "#FFFFFF", "#B2182B"))(50)
+
+    cellwidthheight_rowcol_fontsize <- c(2)
 
     # Use pheatmap to create the heatmap without clustering (we sorted already)
     PHeatObj <- as.ggplot(pheatmap(
         matSorted,
         color = Colors,
-        cellwidth = 1,
-        cellheight = 1,
+        cellwidth = cellwidthheight_rowcol_fontsize,
+        cellheight = cellwidthheight_rowcol_fontsize,
         cluster_rows = FALSE,
         cluster_cols = FALSE,
         border_color = NA,
         show_rownames = TRUE,
         show_colnames = TRUE,
-        fontsize = 3,
-        main = "Sample Correlation heatmap",
+        fontsize = 12,
+        fontsize_row = cellwidthheight_rowcol_fontsize,
+        fontsize_col = cellwidthheight_rowcol_fontsize,
+        main = TitleText,
         silent = TRUE
     ))
 
@@ -112,11 +124,10 @@ func_CreateCorrelationHeatmap <- function(
 
 # Generates the output
 func_CreateCorrelationHeatmap(
-    InFile = "lbw_muscle_output_corr_matrix.txt",
+    InFile = "my_analysis_output_corr_matrix.txt",
     OutFile = "heatmap_samples.pdf",
     Width = 7,
     Height = 7
 )
-
 
 # Contains AI-generated edits.
