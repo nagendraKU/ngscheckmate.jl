@@ -15,7 +15,7 @@ First, generate VCF from BAM files as follows. I use nf-core/rnaseq pipeline for
 
 ### Generate the VCF
 ```
-find /project1/nfcore_rnaseq/r322/star_salmon -name "*.bam" | parallel -j 20 'bcftools mpileup -Ou -f Homo_sapiens.GRCh38.dna.primary_assembly.fa -R NCM_SNP_GRCh38_hg38.bed {} |  bcftools call -mv -Ou | bcftools view -O z -o /project1/vcf_calls/{/.}.vcf'
+find /project1_nf_output/star_salmon -name "*.bam" | parallel -j 20 'bcftools mpileup -Ou -f Homo_sapiens.GRCh38.dna.primary_assembly.fa -R NCM_SNP_GRCh38_hg38.bed {} |  bcftools call -mv -Ou | bcftools view -O z -o /project1_nf_output/vcf_calls/{/.}.vcf'
 
 ```
 
