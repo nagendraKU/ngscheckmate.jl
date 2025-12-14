@@ -19,7 +19,7 @@ library(RColorBrewer)
 #' @return invisibly returns the ggplot object created from the pheatmap
 
 func_CreateCorrelationHeatmap <- function(
-    InFile = "lbw_muscle_output_corr_matrix.txt",
+    InFile = "corr_matrix.txt",
     OutFile = "ncm_heatmap_output.pdf",
     Width = 8,
     Height = 8
