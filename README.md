@@ -20,15 +20,15 @@ find /project1/nfcore_rnaseq/r322/star_salmon -name "*.bam" | parallel -j 20 'bc
 ```
 
 ### Run ncm.jl to get the correlations between samples.
-Then create a `vcf_list.txt` file that lists the VCF files with paths in a single column. Run the following command at the terminal.
+Create a `vcf_list.txt` file that lists the VCF files with paths in a single column. Run the following command at the terminal.
 ```
 export JULIA_NUM_THREADS=auto && julia ncm.jl --vcf-list project1_vcf_list.txt --bed NCM_SNP_GRCh38_hg38.bed --outdir ./project1_ncm --out-prefix project1
 ```
 
-TO DO
+### Running ncm.jl in a container
 
-- Create Dockerfile for Julia execution.
-- Add R heatmap convenience script.
+This is the **recommended** way to run the script. Read [docker_instructions.md](https://github.com/nagendraKU/ngscheckmate.jl/blob/main/docker_instructions.md) for running the script within a docker / podman container.
 
-### Note:
-Other input options provided in the original NGSCheckMate python implementation such as _reading a directory of VCF, taking BAM as input and generating the VCF, or processing FASTQ files_ are NOT provided with `ncm.jl` neither will these features be added.
+### Important Notes:
+- Other input options provided in the original NGSCheckMate python implementation such as _reading a directory of VCF, taking BAM as input and generating the VCF, or processing FASTQ files_ are NOT provided with `ncm.jl` neither will these features be added.
+- An R convenience script is provided to ingest the correlation matrix and produce a heatmap plot.
