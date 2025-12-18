@@ -33,4 +33,4 @@ This is the **recommended** way to run the script. Read [docker_instructions.md]
 
 ### Important Notes:
 - Other input options provided in the original NGSCheckMate python implementation such as _reading a directory of VCF, taking BAM as input and generating the VCF, or processing FASTQ files_ are NOT provided with `ncm.jl` neither will these features be added in the future. 
-- An R convenience script is provided to ingest the correlation matrix and produce a heatmap plot. The script does a check for if the correlation matrix is diagonally symmetric (no labeling errors if `corr_mat == transpose(corr_mat)`)
+- An R convenience script is provided to ingest the correlation matrix and produce a heatmap plot. The script does a check for if the correlation matrix is diagonally symmetric (no labeling errors if `corr_mat == transpose(corr_mat)`). Assumption is that expected matched samples have names that will be next to each other when sorted.eg: subject1_somatic, subject1_cancer; subject2_somatic, subject2_cancer etc.
