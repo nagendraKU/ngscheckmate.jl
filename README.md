@@ -1,5 +1,7 @@
 ## ngscheckmate.jl
 
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/nagendraKU/ngscheckmate.jl)
+
 ### Julia implementation of NGSCheckMate tool - https://github.com/parklab/NGSCheckMate
 
 _Takes a list of vcf files as input and outputs a correlation matrix of samples._
