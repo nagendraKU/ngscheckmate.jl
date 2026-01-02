@@ -138,54 +138,12 @@ function func_ParseVcf(vcf_path::String, features::Vector{String}, feature_to_id
 end
 
 # Compute Pearson correlation between two vectors using only loci where mask is true
-function func_PearsonMasked(a::Vector{Float64}, b::Vector{Float64}, mask::Union{Vector{Bool},BitVector})
-    n = count(identity, mask)
-    n == 0 && return 0.0
-    sum_a = 0.0
-    sum_b = 0.0
-    sum_a2 = 0.0
-    sum_b2 = 0.0
-    sum_ab = 0.0
-    for i in eachindex(mask)
-        mask[i] || continue
-        av = a[i]
-        bv = b[i]
-        sum_a += av
-        sum_b += bv
-        sum_a2 += av * av
-        sum_b2 += bv * bv
-        sum_ab += av * bv
-    end
-    mean_a = sum_a / n
-    mean_b = sum_b / n
-    cov = sum_ab / n - mean_a * mean_b
-    var_a = sum_a2 / n - mean_a^2
-    var_b = sum_b2 / n - mean_b^2
-    denom = sqrt(var_a * var_b)
-    if denom == 0.0
-        # If all values equal in the masked region and equal between arrays, treat as perfect correlation
-        all_equal = true
-        first_val = nothing
-        for i in eachindex(mask)
-            mask[i] || continue
-            av = a[i]
-            bv = b[i]
-            if first_val === nothing
-                first_val = av
-            else
-                if av != first_val
-                    all_equal = false
-                    break
-                end
-            end
-            if av != bv
-                all_equal = false
-                break
-            end
-        end
-        return all_equal ? 1.0 : 0.0
-    end
-    return cov / denom
+function func_PearsonMasked(a::Vector{Float64}, b::Vector{Float64}, mask::AbstractVector{Bool})
+    # replacing manual Pearson cor with Statistics.jl version
+    am, bm = a[mask], b[mask]
+    isempty(am) && return 0.0
+    r = cor(am, bm)
+    return isnan(r) ? (am == bm ? 1.0 : 0.0) : r
 end
 
 # Retrieve depth-binned correlation thresholds (pos_mean, pos_sd, neg_mean, neg_sd)
